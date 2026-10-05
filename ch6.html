@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="IGCSE ICT Chapter 6 ICT Applications 50 Interactive Flashcards">
+    <title>IGCSE ICT Chapter 6 | Flashcards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0284c7 0%, #2563eb 50%, #4f46e5 100%);
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --back-card-bg: #eff6ff;
+            --back-card-text: #1e40af;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            padding: 2rem 1rem 1rem 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        header p {
+            margin: 0.5rem 0 0 0;
+            font-size: 1rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+
+        main {
+            width: 100%;
+            max-width: 650px;
+            padding: 1rem;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stats-bar {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .category-badge {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            backdrop-filter: blur(5px);
+        }
+
+        .flashcard-container {
+            width: 100%;
+            height: 320px;
+            perspective: 1000px;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+        }
+
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.15), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border-radius: 1.5rem;
+        }
+
+        .flashcard.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .card-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2.5rem;
+            box-sizing: border-box;
+            background: var(--card-bg);
+            border-radius: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            text-align: center;
+        }
+
+        .card-back {
+            background: var(--back-card-bg);
+            color: var(--back-card-text);
+            transform: rotateY(180deg);
+            border: 1px solid #bfdbfe;
+        }
+
+        .card-face h3 {
+            margin: 0 0 1rem 0;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .card-back h3 {
+            color: #1d4ed8;
+        }
+
+        .card-face p {
+            font-size: 1.2rem;
+            margin: 0;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        .hint {
+            font-size: 0.8rem;
+            margin-top: 1.5rem;
+            color: var(--text-muted);
+            opacity: 0.8;
+        }
+
+        .controls {
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+            justify-content: center;
+        }
+
+        button {
+            background-color: white;
+            color: var(--primary);
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #f8fafc;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+
+        button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        button:disabled {
+            background-color: rgba(255, 255, 255, 0.4);
+            color: rgba(255, 255, 255, 0.8);
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            color: white;
+            font-size: 0.85rem;
+            opacity: 0.9;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>IGCSE ICT Chapter 6</h1>
+        <p>ICT Applications (50 Interactive Flashcards)</p>
+    </header>
+
+    <main>
+        <div class="stats-bar">
+            <span id="card-counter">Card 1 / 50</span>
+            <span class="category-badge" id="category-indicator">6.1 Communication</span>
+        </div>
+
+        <div class="flashcard-container" onclick="flipCard()">
+            <div class="flashcard" id="flashcard">
+                <div class="card-face card-front">
+                    <h3>Question / Term</h3>
+                    <p id="front-text">Loading...</p>
+                    <span class="hint">✨ Click card to reveal answer</span>
+                </div>
+                <div class="card-face card-back">
+                    <h3>Answer</h3>
+                    <p id="back-text">Loading...</p>
+                    <span class="hint">✨ Click to flip back</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <button id="prev-btn" onclick="prevCard()">← Previous</button>
+            <button id="next-btn" onclick="nextCard()">Next →</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>Designed with 💖 to support IGCSE ICT students</p>
+    </footer>
+
+    <script>
+        const flashcards = [
+            // 6.1 Communication (1-5)
+            { category: "6.1 Communication", front: "What is the use of Internet sites (websites/blogs) in communication?", back: "Used for advertising, sharing information globally, online learning, and keeping in touch via social networks." },
+            { category: "6.1 Communication", front: "What are the key features of Electronic Conferencing (Video/Audio)?", back: "Allows real-time meetings between people in different global locations using webcams, microphones, and internet connections." },
+            { category: "6.1 Communication", front: "What is Mobile Communication technology used for?", back: "Voice calls, sending text messages (SMS), browsing the mobile web, and running apps anywhere via cellular networks." },
+            { category: "6.1 Communication", front: "What is Email used for in business and personal communication?", back: "Sending digital messages, documents, and files instantly across the internet to single or multiple recipients." },
+            { category: "6.1 Communication", front: "What is the main advantage of using internet-based communication over traditional post?", back: "Instant delivery, lower cost for long distances, and the ability to attach large digital files." },
+
+            // 6.2 Modelling applications (6-9)
+            { category: "6.2 Modelling", front: "What is a computer model (modelling)?", back: "Creating a computer-based simulation of a real-life system or process to test scenarios without risk or high costs." },
+            { category: "6.2 Modelling", front: "Give three examples of computer modelling applications.", back: "1. Bridge and building stress testing\n2. Flight simulators for pilots\n3. Financial forecasting and business planning" },
+            { category: "6.2 Modelling", front: "Why use computer models instead of testing things in real life?", back: "It is safer (e.g., crash testing), cheaper, faster, and allows 'what-if' scenarios to be explored easily." },
+            { category: "6.2 Modelling", front: "What is a disadvantage of computer models?", back: "They are only as good as the rules/formulas programmed into them; if variables are incorrect, predictions will be wrong." },
+
+            // 6.3 Computer controlled systems (10-13)
+            { category: "6.3 Computer Controlled", front: "What is a computer-controlled system?", back: "A system where microprocessors use sensor data to automatically monitor and control physical processes without human intervention." },
+            { category: "6.3 Computer Controlled", front: "Give three examples of computer-controlled systems.", back: "1. Automatic central heating systems\n2. Greenhouse climate control\n3. Robotic assembly lines in factories" },
+            { category: "6.3 Computer Controlled", front: "What is the role of sensors in computer-controlled systems?", back: "To measure physical environmental data (e.g., temperature, light, moisture) and send readings to a microprocessor." },
+            { category: "6.3 Computer Controlled", front: "What is the role of actuators in computer-controlled systems?", back: "To perform physical actions based on signals from the microprocessor (e.g., turning a heater on, opening a valve, moving a motor)." },
+
+            // 6.4 School management systems (14-17)
+            { category: "6.4 School Management", front: "What is a School Management System (SMS)?", back: "An integrated software database used by schools to manage student records, admissions, timetables, and reports." },
+            { category: "6.4 School Management", front: "How is electronic registration handled in schools?", back: "Using smart cards, biometric scanners, or teachers entering attendance directly into a central computer database." },
+            { category: "6.4 School Management", front: "What are the benefits of computerized student record systems?", back: "Quick retrieval of student data, secure password-protected storage, easy tracking of academic progress, and automated report generation." },
+            { category: "6.4 School Management", front: "How do school management systems help parents?", back: "Parents can check attendance, homework, exam results, and behavior reports online through portal apps." },
+
+            // 6.5 Booking systems (18-22)
+            { category: "6.5 Booking Systems", front: "What is an online booking system used for?", back: "Reserving seats, tickets, or rooms in advance (e.g., airline tickets, cinema seats, hotel bookings, trains)." },
+            { category: "6.5 Booking Systems", front: "How do booking systems prevent double-booking?", back: "They use a centralized, real-time database that locks a seat or room instantly the moment a transaction is processed." },
+            { category: "6.5 Booking Systems", front: "Give two advantages of online booking systems for customers.", back: "1. 24/7 availability from home.\n2. Ability to compare prices and choose exact seats." },
+            { category: "6.5 Booking Systems", front: "Give two advantages of online booking systems for companies.", back: "1. Reduced staff costs as customers book themselves.\n2. Global reach and automated ticket generation." },
+            { category: "6.5 Booking Systems", front: "What happens behind the scenes when an airline ticket is booked online?", back: "The system checks seat availability, updates the central database, processes payment securely, and generates an e-ticket barcode." },
+
+            // 6.6 Banking systems (23-27)
+            { category: "6.6 Banking Systems", front: "What is ATM (Automated Teller Machine) banking?", back: "A computerized machine allowing customers to withdraw cash, check account balances, and deposit funds 24/7 using a PIN and card." },
+            { category: "6.6 Banking Systems", front: "What is Internet/Online Banking?", back: "Managing bank accounts, transferring money, and paying bills over the internet via secure web browsers or mobile apps." },
+            { category: "6.6 Banking Systems", front: "What is Telephone Banking?", back: "Accessing banking services over the phone using automated interactive voice response (IVR) or speaking to a call center agent." },
+            { category: "6.6 Banking Systems", front: "Give two advantages of online banking for customers.", back: "1. Access accounts 24/7 from anywhere.\n2. Quick and convenient bill payments and fund transfers." },
+            { category: "6.6 Banking Systems", front: "Give two advantages of online banking for banks.", back: "1. Lower operating costs due to fewer physical branch staff needed.\n2. Customers perform routine tasks themselves." },
+
+            // 6.7 Computers in medicine (28-32)
+            { category: "6.7 Medical Systems", front: "How are computers used in patient monitoring?", back: "Sensors attached to patients continuously measure vital signs (heart rate, blood pressure) and sound an alarm if readings become dangerous." },
+            { category: "6.7 Medical Systems", front: "What is patient record keeping in hospitals?", back: "Storing patient medical histories, prescriptions, and test results securely in centralized hospital databases." },
+            { category: "6.7 Medical Systems", front: "How are 3D printers used in modern medicine?", back: "To print custom prosthetics, dental implants, and even biological tissue models for surgical planning." },
+            { category: "6.7 Medical Systems", front: "What is computer-aided surgery (robotic surgery)?", back: "Using robotic arms controlled by surgeons to perform ultra-precise, minimally invasive operations." },
+            { category: "6.7 Medical Systems", front: "What are the benefits of computerized patient databases in healthcare?", back: "Doctors can access patient history instantly, reducing medical errors and speeding up diagnoses." },
+
+            // 6.8 Expert systems (33-36)
+            { category: "6.8 Expert Systems", front: "What is an Expert System?", back: "A computer software system that emulates the decision-making ability of a human expert in a specific specialist field." },
+            { category: "6.8 Expert Systems", front: "What are the three main components of an Expert System?", back: "1. User Interface\n2. Inference Engine\n3. Knowledge Base (plus Rules Base)" },
+            { category: "6.8 Expert Systems", front: "What is a Knowledge Base in an expert system?", back: "A database of facts and collected knowledge provided by human experts in that specific field." },
+            { category: "6.8 Expert Systems", front: "Give three practical applications of expert systems.", back: "1. Medical diagnosis\n2. Car engine fault finding\n3. Mineral prospecting/oil exploration" },
+
+            // 6.9 Computers in the retail industry (37-41)
+            { category: "6.9 Retail Industry", front: "What is EPOS (Electronic Point of Sale)?", back: "A computerized checkout system used in retail stores that records sales and updates stock levels automatically." },
+            { category: "6.9 Retail Industry", front: "What is a Barcode used for in retail?", back: "A series of dark and light lines read by a scanner to identify a product code, which looks up its price and details in a database." },
+            { category: "6.9 Retail Industry", front: "What is EFTPOS (Electronic Funds Transfer at Point of Sale)?", back: "A terminal that allows customers to pay electronically using debit or credit cards directly at the checkout." },
+            { category: "6.9 Retail Industry", front: "How does EPOS help with stock control?", back: "When an item is scanned and sold, the stock database decreases automatically; when stock gets low, reordering can be triggered." },
+            { category: "6.9 Retail Industry", front: "What is online shopping (E-commerce)?", back: "Buying and selling goods over the internet using digital shopping carts, online payment gateways, and home delivery." },
+
+            // 6.10 Recognition systems (42-46)
+            { category: "6.10 Recognition Systems", front: "What is OMR (Optical Mark Recognition)?", back: "A technology that reads marks made in specific positions on a paper form (e.g., multiple-choice exam answer sheets, lottery tickets)." },
+            { category: "6.10 Recognition Systems", front: "What is OCR (Optical Character Recognition)?", back: "Software that converts scanned images of handwritten or printed text into editable computer text characters." },
+            { category: "6.10 Recognition Systems", front: "What is RFID (Radio Frequency Identification)?", back: "A technology that uses radio waves to read data stored on a small microchip tag attached to items, animals, or passports." },
+            { category: "6.10 Recognition Systems", front: "What is Biometric Recognition?", back: "Using unique physical or behavioral human characteristics (fingerprints, facial recognition, iris scans) for security and identification." },
+            { category: "6.10 Recognition Systems", front: "Give an advantage of Biometric recognition over passwords.", back: "Biometrics cannot be easily forgotten, guessed, or stolen like typed passwords." },
+
+            // 6.11 Satellite systems (47-50)
+            { category: "6.11 Satellite Systems", front: "What is GPS (Global Positioning System)?", back: "A satellite-based navigation system that provides real-time location, speed, and time synchronization anywhere on Earth." },
+            { category: "6.11 Satellite Systems", front: "How does GPS determine a device's location?", back: "By calculating the time signals take to reach a receiver from at least 4 different satellites (trilateration)." },
+            { category: "6.11 Satellite Systems", front: "What are Satellite Communication systems used for?", back: "Broadcasting television signals, global telephone calls, high-speed internet in remote areas, and weather forecasting." },
+            { category: "6.11 Satellite Systems", front: "Give two major uses of GIS (Geographic Information Systems) combined with satellites.", back: "1. Digital mapping and vehicle route navigation\n2. Tracking weather patterns and disaster management." }
+        ];
+
+        let currentIndex = 0;
+        let isFlipped = false;
+
+        const flashcardElement = document.getElementById('flashcard');
+        const frontText = document.getElementById('front-text');
+        const backText = document.getElementById('back-text');
+        const cardCounter = document.getElementById('card-counter');
+        const categoryIndicator = document.getElementById('category-indicator');
+        const prevBtn = document.getElementById('prev-btn');
+        const nextBtn = document.getElementById('next-btn');
+
+        function updateCard() {
+            const currentCard = flashcards[currentIndex];
+            frontText.innerText = currentCard.front;
+            backText.innerText = currentCard.back;
+            cardCounter.innerText = `Card ${currentIndex + 1} / ${flashcards.length}`;
+            categoryIndicator.innerText = currentCard.category;
+
+            isFlipped = false;
+            flashcardElement.classList.remove('flipped');
+
+            prevBtn.disabled = currentIndex === 0;
+            nextBtn.disabled = currentIndex === flashcards.length - 1;
+        }
+
+        function flipCard() {
+            isFlipped = !isFlipped;
+            flashcardElement.classList.toggle('flipped', isFlipped);
+        }
+
+        function nextCard() {
+            if (currentIndex < flashcards.length - 1) {
+                currentIndex++;
+                updateCard();
+            }
+        }
+
+        function prevCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                updateCard();
+            }
+        }
+
+        updateCard();
+    </script>
+</body>
+</html>
